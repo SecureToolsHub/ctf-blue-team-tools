@@ -5,7 +5,7 @@ An automated reporting tool for DFIR investigations and Blue Team CTF competitio
 ## Features
 
 - **Standardized Incident Template**: Assembles executive summary, attack vector analysis, technical impact, chronological event timeline, verified IoC catalog, and remediation recommendations.
-- **Dynamic Artifact Ingestion**: Ingests JSON IoC catalogs (from `ioc_hunter`), CSV timelines (from `log_timeline`), and SLA outage data (from `sla_monitor`).
+- **Dynamic Artifact Ingestion**: Ingests JSON IoC catalogs (from `ioc_hunter`) and CSV timelines (from `log_timeline`).
 - **Scoring & Compliance Verification**: Validates report contents against standard competition scoring weightings (Timeline accuracy, Remediation quality, Narrative completeness).
 
 ## Usage

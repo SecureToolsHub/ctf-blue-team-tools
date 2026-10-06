@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Firewall Manager - Blue Team CTF Toolset (Cyberkent 4.0)
+Firewall Manager - Blue Team CTF Toolset
 
 Manages iptables and ufw rules for infrastructure protection.
 Provides fast, idempotent commands to audit, baseline, block, and monitor traffic.
@@ -27,8 +27,8 @@ LOG_FILE = "/var/log/firewall_manager.log"
 BACKUP_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "backups")
 
 KNOWN_BAD_IPS = [
-    ("31.220.94.79", "Cyberkent3 C2/RCE origin"),
-    ("194.163.131.46", "Cyberkent3 Mythic C2"),
+    ("31.220.94.79", "Known C2/RCE origin"),
+    ("194.163.131.46", "Known Mythic C2"),
 ]
 
 SERVICE_PORTS = {

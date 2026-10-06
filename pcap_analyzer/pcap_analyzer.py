@@ -72,7 +72,7 @@ PRIVATE_NETS = [
     ipaddress.ip_network("127.0.0.0/8"),
 ]
 
-FLAG_PATTERN_DEFAULT = r"(?:ctf|flag|FLAG|CTF|HTB|cyberkent|CKT)\{[^\}]{1,200}\}"
+FLAG_PATTERN_DEFAULT = r"(?:ctf|flag|FLAG|CTF|HTB|THM)\{[^\}]{1,200}\}"
 
 # ---------------------------------------------------------------------------
 # Helpers

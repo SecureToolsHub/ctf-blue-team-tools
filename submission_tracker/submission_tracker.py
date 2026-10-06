@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Cyberkent 4.0 Competition Submission Tracker
+CTF Competition Submission Tracker
 Single source of truth for competition state machine and submissions.
 Enforces strict competition rules for IoCs and Reports.
 """
@@ -315,7 +315,7 @@ def handle_status(args: argparse.Namespace) -> None:
     # Reports
     report_count = len(state.reports)
 
-    print(f"\n{Colors.BOLD}{Colors.CYAN}=== CYBERKENT 4.0 COMPETITION DASHBOARD ==={Colors.RESET}\n")
+    print(f"\n{Colors.BOLD}{Colors.CYAN}=== CTF COMPETITION DASHBOARD ==={Colors.RESET}\n")
     print(f" {Colors.BOLD}Team:{Colors.RESET} {state.team}  |  {Colors.BOLD}Incident ID:{Colors.RESET} {state.incident_id}")
     print(f" {Colors.BOLD}Started:{Colors.RESET} {state.start_time}")
     print(f" {Colors.BOLD}Elapsed Time:{Colors.RESET} {str(elapsed).split('.')[0]}")
@@ -450,8 +450,8 @@ def handle_export(args: argparse.Namespace) -> None:
 # ==========================================
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Cyberkent 4.0 Competition Submission Tracker")
-    parser.add_argument("--state", default=os.path.expanduser("~/.cyberkent4_submissions.json"),
+    parser = argparse.ArgumentParser(description="CTF Competition Submission Tracker")
+    parser.add_argument("--state", default=os.path.expanduser("~/.ctf_submissions.json"),
                         help="Path to the JSON state file.")
     
     subparsers = parser.add_subparsers(dest="command", required=True)

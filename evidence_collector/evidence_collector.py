@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Evidence Collector - Cyberkent 4.0 CTF Tool
+Evidence Collector - Blue Team CTF Tool
 
-Extracts, packages, and formats log evidence for each IoC for direct use in competition reports.
+Extracts, packages, and formats log evidence for each IoC for direct use in incident reports.
 """
 
 import argparse

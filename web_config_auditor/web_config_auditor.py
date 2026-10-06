@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Web Configuration Auditor - Cyberkent 4.0 Blue Team Tool
+Web Configuration Auditor - Blue Team Security Tool
 Audits web application and database configurations on local infrastructure.
 Reads config files only, no network calls.
 """

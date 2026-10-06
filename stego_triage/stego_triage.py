@@ -49,7 +49,7 @@ except ImportError:
 # ---------------------------------------------------------------------------
 
 FLAG_RE = re.compile(
-    r"(?:ctf|flag|FLAG|CTF|HTB|cyberkent|CKT)\{[^\}]{1,200}\}|"
+    r"(?:ctf|flag|FLAG|CTF|HTB|THM)\{[^\}]{1,200}\}|"
     r"[A-Za-z0-9+/]{20,}={0,2}",  # base64-like
     re.IGNORECASE
 )

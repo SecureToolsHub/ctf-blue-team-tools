@@ -508,8 +508,8 @@ def check_ioc(name, condition, severity, ioc_val, technique):
     return False
 
 def cmd_hunt_scenario(args):
-    """Run a targeted hunt based on last year's Cyberkent scenario."""
-    hdr("HUNT SCENARIO — CYBERKENT 4.0")
+    """Run a targeted hunt for common compromise scenarios."""
+    hdr("TARGETED SCENARIO HUNT")
     
     # 1. Infostealer artifacts (Recycle Bin / unusual downloads)
     subhdr("Infostealer Artifacts")
@@ -782,7 +782,7 @@ def main():
     p_diff.add_argument("file2", help="Later triage JSON")
 
     # New commands
-    sub.add_parser("hunt-scenario", help="Run a targeted hunt based on Cyberkent 4.0 scenario")
+    sub.add_parser("hunt-scenario", help="Run a targeted hunt based on common scenario artifacts")
     
     sub.add_parser("quick-iocs", help="Run the most time-efficient IOC sweep")
     

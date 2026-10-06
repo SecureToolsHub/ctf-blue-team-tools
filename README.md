@@ -13,7 +13,7 @@ Designed for rapid deployment during high-stress defensive operations, these too
   - [1. Live DFIR & Digital Forensics](#1-live-dfir--digital-forensics)
   - [2. SIEM, Threat Detection & Log Analysis](#2-siem-threat-detection--log-analysis)
   - [3. Host Defense, Hardening & Persistence Hunting](#3-host-defense-hardening--persistence-hunting)
-  - [4. Service Resilience & Uptime Management (SLA)](#4-service-resilience--uptime-management-sla)
+  - [4. Service Resilience & Restoration](#4-service-resilience--restoration)
   - [5. CTF Operations, Scoring & Reporting](#5-ctf-operations-scoring--reporting)
   - [6. Cryptography, Encodings & Flag Hunting](#6-cryptography-encodings--flag-hunting)
 - [Repository Structure](#-repository-structure)
@@ -25,7 +25,7 @@ Designed for rapid deployment during high-stress defensive operations, these too
 
 ## 🏛️ Overview & Architecture
 
-Defensive security and CTF blue teaming require rapid triage, evidence preservation, threat isolation, and service restoration under strict time and SLA constraints. This toolkit solves these challenges with specialized, standalone modules categorized across the entire incident lifecycle:
+Defensive security and CTF blue teaming require rapid triage, evidence preservation, threat isolation, and service restoration under strict operational constraints. This toolkit solves these challenges with specialized, standalone modules categorized across the entire incident lifecycle:
 
 ```
 [ Compromise / Alert ] ──► dfir_triage & pcap_analyzer (Volatile Collection)
@@ -36,7 +36,7 @@ Defensive security and CTF blue teaming require rapid triage, evidence preservat
           │
           ├──► vuln_patcher, firewall_manager & web_config_auditor (Containment)
           │
-          ├──► service_doctor & sla_monitor (Restoration & Availability)
+          ├──► service_doctor & cod_fixer (Service Restoration)
           │
           └──► report_builder & submission_tracker (IoC / IR Scoring)
 ```
@@ -65,7 +65,6 @@ Defensive security and CTF blue teaming require rapid triage, evidence preservat
 | **Restoration** | [`service_doctor/`](service_doctor/) | `service_doctor.py` | Automated daemon health check, systemd triage, log diagnostic, and recovery. |
 | **Restoration** | [`service_restoration/`](service_restoration/) | `baseline_diff.py` | Filesystem baseline snapshotting and diffing to identify tampered or injected files. |
 | **Restoration** | [`cod_fixer/`](cod_fixer/) | `code_doctor.py` | Auto-repairs broken syntax, BOM markers, CRLF endings, and indentation in downed services. |
-| **Availability** | [`sla_monitor/`](sla_monitor/) | `sla_monitor.py` | Real-time SLA watchdog with auto-recovery, downtime logging, and availability reporting. |
 | **Operations** | [`submission_tracker/`](submission_tracker/) | `submission_tracker.py` | State-machine tracker for IoCs and reports; prevents rule violations and limits breaches. |
 | **Operations** | [`score_calculator/`](score_calculator/) | `score_calculator.py` | CTF scoring modeler and point optimization calculator (SLA × Task + IoCs). |
 | **Operations** | [`report_builder/`](report_builder/) | `report_builder.py` | Generates professional Incident Response reports with timelines and verified IoC tables. |
@@ -266,7 +265,7 @@ python3 persistence_hunter/persistence_hunter.py systemd
 
 ---
 
-### 4. Service Resilience & Uptime Management (SLA)
+### 4. Service Resilience & Restoration
 
 #### `service_doctor` — Service Health Diagnostic & Triage
 Performs immediate diagnostics on downed or flapping systemd services and validates open ports.
@@ -299,19 +298,6 @@ python3 cod_fixer/code_doctor.py /etc/nginx/nginx.conf
 
 # Apply safe formatting fixes (strip BOM, convert CRLF->LF, fix mixed tabs/spaces)
 python3 cod_fixer/code_doctor.py /etc/nginx/nginx.conf --apply
-```
-
-#### `sla_monitor` — Real-Time Availability Watchdog
-Ensures continuous service availability with automated health checks, restart triggers, and SLA logs.
-```bash
-# Quick health check of registered services
-python3 sla_monitor/sla_monitor.py check
-
-# Run continuous watchdog loop (monitors and auto-restarts failed daemons)
-python3 sla_monitor/sla_monitor.py watch --interval 30
-
-# Generate SLA compliance report
-python3 sla_monitor/sla_monitor.py report -o sla_report.md
 ```
 
 ---

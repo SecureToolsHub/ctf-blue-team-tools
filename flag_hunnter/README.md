@@ -11,7 +11,7 @@ A dual-purpose toolkit for CTF competitions and forensic artifact hunting, featu
 
 ### Flag Hunter
 ```bash
-# Scan a directory or file using default common prefixes (ctf, flag, cyberkent)
+# Scan a directory or file using default common prefixes (ctf, flag, HTB)
 python3 flag_hunter.py /path/to/evidence
 
 # Search with custom flag prefixes or regex pattern

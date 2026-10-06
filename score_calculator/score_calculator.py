@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Cyberkent 4.0 Score Calculator
-Calculates scores according to the official regulations.
+CTF Blue Team Score Calculator
+Calculates scores according to standard competition regulations.
 """
 import argparse
 import json
@@ -17,7 +17,7 @@ MAX_REPORT_SUBMISSIONS = 3
 WARN_REPORT_SUBMISSIONS = 2
 MAX_IOCS = 20
 IOC_POINT_VALUE = 100
-DEFAULT_STATE_FILE = os.path.expanduser("~/.cyberkent_state.json")
+DEFAULT_STATE_FILE = os.path.expanduser("~/.ctf_score_state.json")
 
 # Colors
 class Colors:
@@ -223,7 +223,7 @@ def cmd_dashboard(args):
     state = load_state(args.state)
     
     print(f"{Colors.BOLD}{Colors.HEADER}========================================={Colors.ENDC}")
-    print(f"{Colors.BOLD}{Colors.HEADER}     Cyberkent 4.0 Status Dashboard      {Colors.ENDC}")
+    print(f"{Colors.BOLD}{Colors.HEADER}        CTF Status Dashboard             {Colors.ENDC}")
     print(f"{Colors.BOLD}{Colors.HEADER}========================================={Colors.ENDC}")
     print("")
     
@@ -249,7 +249,7 @@ def cmd_dashboard(args):
     print_score_breakdown(state)
 
 def main():
-    parser = argparse.ArgumentParser(description="Cyberkent 4.0 Score Calculator")
+    parser = argparse.ArgumentParser(description="CTF Blue Team Score Calculator")
     subparsers = parser.add_subparsers(dest="command", required=True)
     
     # calc

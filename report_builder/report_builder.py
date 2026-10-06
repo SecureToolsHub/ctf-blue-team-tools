@@ -281,7 +281,7 @@ def handle_ioc_list(args: argparse.Namespace) -> None:
 
 def main() -> None:
     """Main CLI entrypoint."""
-    parser = argparse.ArgumentParser(description="CTF Incident Report Builder (Cyberkent 4.0)")
+    parser = argparse.ArgumentParser(description="CTF Incident Report Builder")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     # Subparser: new

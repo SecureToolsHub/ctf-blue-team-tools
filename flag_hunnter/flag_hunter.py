@@ -15,7 +15,7 @@ Handles the cases that manual grep misses:
 Usage:
     python3 flag_hunter.py ./evidence
     python3 flag_hunter.py crm_tizim_baza.sql
-    python3 flag_hunter.py ./evidence --prefixes ctf,flag,cyberkent
+    python3 flag_hunter.py ./evidence --prefixes ctf,flag,HTB
     python3 flag_hunter.py ./evidence --pattern 'HTB\\{[^}]+\\}'
     python3 flag_hunter.py ./evidence --no-base64 --no-rot13
 """
@@ -49,7 +49,7 @@ def build_pattern(user_pattern, prefixes):
     if user_pattern:
         return re.compile(user_pattern.encode() if isinstance(user_pattern, str) else user_pattern)
     alt = "|".join(re.escape(p) for p in prefixes)
-    # generic fallback also catches "cyberkent{...}"-style custom prefixes
+    # generic fallback also catches custom format prefixes
     pat = rf"(?:{alt}|[A-Za-z0-9_]{{2,20}})\{{[^{{}}\r\n]{{3,200}}\}}"
     return re.compile(pat)
 
@@ -160,7 +160,7 @@ def main():
     parser = argparse.ArgumentParser(description="Multi-encoding flag/IOC hunter")
     parser.add_argument("path", help="File or directory to scan")
     parser.add_argument("--prefixes", default=",".join(DEFAULT_PREFIXES),
-                         help="Comma-separated flag prefixes, e.g. ctf,flag,cyberkent")
+                         help="Comma-separated flag prefixes, e.g. ctf,flag,HTB")
     parser.add_argument("--pattern", default=None,
                          help="Full custom regex, overrides --prefixes")
     parser.add_argument("--encodings", default=",".join(ENCODINGS.keys()),

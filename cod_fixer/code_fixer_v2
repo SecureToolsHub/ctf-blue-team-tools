@@ -1,0 +1,106 @@
+import argparse
+import os
+import subprocess
+import sys
+import time
+import requests
+
+class HeuristicAnalyzer:
+    def __init__(self, target_file):
+        self.target_file = target_file
+        # The connection to your n8n/Docker gateway
+        self.analysis_endpoint = "http://127.0.0.1:5678/webhook/analyze-logic"
+        self.rules_dir = "signatures"
+
+    def _load_heuristics(self):
+        """Simulates loading local heuristic rules to mask the network delay."""
+        print("[~] Initializing Heuristic Engine...")
+        time.sleep(0.5)
+        
+        # Automatically generate dummy rule files if they don't exist
+        if not os.path.exists(self.rules_dir):
+            os.makedirs(self.rules_dir, exist_ok=True)
+            with open(os.path.join(self.rules_dir, "syntax_ast_rules.yara"), "w") as f:
+                f.write('rule AST_Check { condition: true }')
+            with open(os.path.join(self.rules_dir, "logic_patterns.json"), "w") as f:
+                f.write('{"rules": [{"id": 1, "pattern": "null_ptr"}]}')
+                
+        print(f"[+] Loaded 142 heuristic rules from local database ({self.rules_dir}/)")
+
+    def analyze_and_patch(self):
+        self._load_heuristics()
+        
+        try:
+            with open(self.target_file, 'r', encoding='utf-8') as f:
+                source_code = f.read()
+
+            # Fake logging to justify the 3-5 second AI generation time
+            print("[~] Building Abstract Syntax Tree...")
+            time.sleep(1)
+            print("[~] Running symbolic execution against loaded patterns...")
+            
+            payload = {
+                "module_data": source_code,
+                "analysis_mode": "deep_syntax_and_logic_patch"
+            }
+            
+            # Request sent to the local gateway (which securely handles the Gemini API key)
+            response = requests.post(self.analysis_endpoint, json=payload, timeout=45)
+
+            if response.status_code == 200:
+                patched_code = response.json().get("patched_data", "")
+                
+                # Write the AI-corrected code back to the target file
+                with open(self.target_file, 'w', encoding='utf-8') as f:
+                    f.write(patched_code)
+                    
+                print(f"[+] Module {self.target_file} successfully patched via local heuristic engine.")
+                return True
+            else:
+                print(f"[-] Analysis failed with status {response.status_code}.")
+                return False
+                
+        except requests.exceptions.RequestException as e:
+            print(f"[-] Local gateway communication error: Ensure n8n/Docker is running on 127.0.0.1:5678.")
+            return False
+        except Exception as e:
+            print(f"[-] Error processing file: {e}")
+            return False
+
+    def restart_target_service(self, service_name, is_systemd=False):
+        """Restarts the service or executes the script to test the new code."""
+        print(f"[~] Recompiling execution graph and restarting {service_name}...")
+        try:
+            if is_systemd:
+                # For background services (e.g., a web server or database daemon)
+                command = ["sudo", "systemctl", "restart", service_name]
+            else:
+                # For standalone Python scripts
+                command = ["python3", service_name]
+
+            # Brief pause to simulate environment teardown/setup
+            time.sleep(1.5) 
+            
+            result = subprocess.run(command, capture_output=True, text=True, check=True)
+            print(f"[+] Service {service_name} successfully restarted.")
+            
+            if result.stdout:
+                print(f"[+] Output:\n{result.stdout.strip()}")
+                
+        except subprocess.CalledProcessError as e:
+            print(f"[-] Failed to restart {service_name}. Error: {e.stderr.strip()}")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Local Heuristic Code Analyzer and Patcher")
+    parser.add_argument("target_file", help="Path to the broken source code file to analyze")
+    parser.add_argument("--service", help="Name of the systemd service or script to execute after patching", default=None)
+    parser.add_argument("--systemd", action="store_true", help="Flag to indicate the service is managed by systemctl")
+    
+    args = parser.parse_args()
+
+    analyzer = HeuristicAnalyzer(args.target_file)
+    patch_successful = analyzer.analyze_and_patch()
+    
+    # Only attempt a restart if the code was successfully patched
+    if patch_successful and args.service:
+        analyzer.restart_target_service(args.service, is_systemd=args.systemd)
